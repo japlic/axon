@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Axon Discord Bot</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #f1f5f9;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #1e293b;
+      padding: 2rem;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin: 0;
+    }
+    .description {
+      font-size: 1rem;
+      margin-top: 0.5rem;
+      color: #94a3b8;
+    }
+    .links {
+      margin-top: 1rem;
+    }
+    .links a {
+      color: #38bdf8;
+      margin: 0 1rem;
+      text-decoration: none;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 2rem;
+    }
+    .category {
+      background: #1e293b;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+    }
+    .category h2 {
+      font-size: 1.5rem;
+      margin: 0 0 0.25rem;
+    }
+    .category p {
+      color: #cbd5e1;
+      font-size: 0.9rem;
+    }
+    .commands {
+      margin-top: 0.75rem;
+    }
+    .command {
+      margin-bottom: 0.5rem;
+    }
+    .command a {
+      color: #facc15;
+      font-family: monospace;
+      text-decoration: none;
+    }
+    .command a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.9rem;
+      color: #64748b;
+    }
+    footer a {
+      color: #38bdf8;
+      margin: 0 0.5rem;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Axon</h1>
+    <p class="description">Commands for Axon</p>
+    <div class="links">
+      <a href="https://discord.com/oauth2/authorize?client_id=1371632371912282122&permissions=1735016446427126&integration_type=0&scope=bot+applications.commands" target="_blank">Invite Bot</a>
+      <a href="https://discord.gg/xQXmtj4yMC" target="_blank">Support Server</a>
+      <a href="/terms.html">Terms</a>
+      <a href="/privacy.html">Privacy</a>
+    </div>
+  </header>
+  <div class="container" id="commands-container"></div>
+  <footer>
+    <p>Made with ❤️</p>
+    <p>
+      <a href="/terms.html">Terms of Service</a>
+      |
+      <a href="/privacy.html">Privacy Policy</a>
+    </p>
+  </footer>
+
+  <script>
+    const HELP_CATEGORIES = {
+      Tags: {
+        emoji: "🏷️",
+        description: "Tag system for storing and sharing snippets.",
+        commands: {
+          "tag add <name> <content>": "Create a tag",
+          "tag edit <name> <new_content>": "Edit a tag",
+          "tag remove <name>": "Delete a tag",
+          "tag show <name>": "Show a tag",
+          "tag list": "List tags",
+        },
+      },
+      Music: {
+        emoji: "🎵",
+        description:
+          "Play, pause, skip, and manage music easily in your voice channel.",
+        commands: {
+          "music play <song/playlist>": "Searches and plays a song from a given query",
+          "music disconnect": "Disconnects the player from the voice channel and clears its queue",
+          "music skip": "Skip the currently playing song and play the next one in queue",
+          "music currentsong": "Display the currently playing song",
+        },
+      },
+      Reactions: {
+        emoji: "🤗",
+        description: "Express yourself with fun actions.",
+        commands: {
+          "react hug <member>": "Hug someone",
+          "react kiss <member>": "Kiss someone",
+          "react bite <member>": "Bite someone",
+          "react slap <member>": "Slap someone",
+        },
+      },
+      Bot: {
+        emoji: "🤖",
+        description: "Bot info.",
+        commands: {
+          about: "Says stuff about the bot.",
+        },
+      },
+    };
+
+    const container = document.getElementById("commands-container");
+
+    Object.entries(HELP_CATEGORIES).forEach(([name, cat]) => {
+      const section = document.createElement("div");
+      section.className = "category";
+
+      section.innerHTML = `
+        <h2>${cat.emoji} ${name}</h2>
+        <p>${cat.description}</p>
+        <div class="commands">
+          ${Object.entries(cat.commands)
+            .map(
+              ([cmd, desc]) => `
+              <div class="command">
+                <a href="/commands/${encodeURIComponent(cmd.replace(/\s+/g, '-').toLowerCase())}.html" target="_blank">${cmd}</a> – ${desc}
+              </div>
+            `
+            )
+            .join("")}
+        </div>
+      `;
+
+      container.appendChild(section);
+    });
+  </script>
+</body>
+</html>
